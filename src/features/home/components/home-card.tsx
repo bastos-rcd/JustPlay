@@ -10,7 +10,7 @@ export default function HomeCard(props: { label: string; name: string }) {
 		>
 			<img className="rounded-t-xl" src={`/games/${props.name}.webp`} />
 
-			<h1 className="text-center font-bold uppercase">{props.name}</h1>
+			<h1 className="text-center font-bold uppercase">{props.label}</h1>
 		</div>
 	)
 }

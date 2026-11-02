@@ -9,3 +9,9 @@ export type Dart = {
 	score: number
 	player: Player
 }
+
+export type Score = {
+	player: Player
+	score: number
+	darts: Dart[]
+}

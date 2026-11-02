@@ -21,12 +21,15 @@ interface State {
 }
 
 export const dartsStore = create<State>((set) => ({
-	status: false,
+	status: true,
 	start: () => set(() => ({ status: true })),
 	stop: () =>
 		set(() => ({ status: false, players: [], darts: [], classment: [] })),
 
-	players: [],
+	players: [
+		{ id: '1', name: 'Bastos' },
+		{ id: '2', name: 'Noa' },
+	],
 	addPlayer: (name: string) =>
 		set((state) => ({
 			players: [...state.players, { id: crypto.randomUUID(), name }],

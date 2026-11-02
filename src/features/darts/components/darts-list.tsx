@@ -14,7 +14,7 @@ export default function DartsList() {
 		<>
 			<span className="self-end font-bold">{players.length} joueur(s)</span>
 
-			<div className="flex-1 overflow-y-auto">
+			<div className="no-scrollbar flex-1 overflow-y-auto">
 				<div className="grid w-full grid-cols-2 gap-4">
 					{players.map((player) => (
 						<div
