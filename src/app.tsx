@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from '@/features/home/home'
 
 import Buzzer from '@/features/buzzer/buzzer'
+import Darts from '@/features/darts/darts'
 
 export default function App() {
 	return (
@@ -13,6 +14,7 @@ export default function App() {
 						<Route path="/" element={<Home />} />
 
 						<Route path="/buzzer" element={<Buzzer />} />
+						<Route path="/darts" element={<Darts />} />
 					</Routes>
 				</div>
 			</main>
