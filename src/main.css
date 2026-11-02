@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Playpen+Sans:wght@100..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Short+Stack&display=swap');
+@import 'tailwindcss';
+
+@layer utilities {
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+	}
+}
+
+@theme {
+	--color-background: #f1f5f9;
+	--color-border: #71717a;
+	--color-surface: #d4d4d8;
+	--color-text: #09090b;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+
+	background-color: var(--color-background);
+	font-family: 'Playpen Sans', sans-serif;
+	color: var(--color-text);
+
+	overscroll-behavior-y: none;
+}
