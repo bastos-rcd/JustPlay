@@ -8,12 +8,8 @@ interface State {
 	start: () => void
 	stop: () => void
 
-	nbCivil: number
-	setNbCivil: (nb: number) => void
-	nbUndercover: number
-	setNbUndercover: (nb: number) => void
-	nbMister: number
-	setNbMister: (nb: number) => void
+	nbPlayers: { civils: number; undercovers: number; mister: number }
+	setNbPlayers: (civils: number, undercovers: number, mister: number) => void
 
 	words: { civil: string; undercover: string }
 	roles: Role[]
@@ -32,7 +28,11 @@ export const undercoverStore = create<State>((set) => ({
 		set((state) => ({
 			status: true,
 			words: pickWords(),
-			roles: pickRoles(state.nbCivil, state.nbUndercover, state.nbMister),
+			roles: pickRoles(
+				state.nbPlayers.civils,
+				state.nbPlayers.undercovers,
+				state.nbPlayers.mister,
+			),
 			players: [],
 			winner: null,
 		})),
@@ -44,12 +44,9 @@ export const undercoverStore = create<State>((set) => ({
 			winner: null,
 		}),
 
-	nbCivil: 3,
-	setNbCivil: (nb) => set({ nbCivil: nb }),
-	nbUndercover: 1,
-	setNbUndercover: (nb) => set({ nbUndercover: nb }),
-	nbMister: 0,
-	setNbMister: (nb) => set({ nbMister: nb }),
+	nbPlayers: { civils: 3, undercovers: 1, mister: 0 },
+	setNbPlayers: (civils, undercovers, mister) =>
+		set({ nbPlayers: { civils, undercovers, mister } }),
 
 	words: { civil: 'CIVIL', undercover: 'UNDERCOVER' },
 	roles: [],

@@ -8,6 +8,10 @@ export const GAMES = [
 		name: 'darts',
 	},
 	{
+		label: 'Loup-Garou',
+		name: 'werewolf',
+	},
+	{
 		label: 'Undercover',
 		name: 'undercover',
 	},

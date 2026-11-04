@@ -5,6 +5,7 @@ import Home from '@/features/home/home'
 import Buzzer from '@/features/buzzer/buzzer'
 import Darts from '@/features/darts/darts'
 import Undercover from '@/features/undercover/undercover'
+import Werewolf from '@/features/werewolf/werewolf'
 
 export default function App() {
 	return (
@@ -17,6 +18,7 @@ export default function App() {
 						<Route path="/buzzer" element={<Buzzer />} />
 						<Route path="/darts" element={<Darts />} />
 						<Route path="/undercover" element={<Undercover />} />
+						<Route path="/werewolf" element={<Werewolf />} />
 					</Routes>
 				</div>
 			</main>
