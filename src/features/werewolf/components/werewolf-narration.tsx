@@ -4,7 +4,7 @@ export default function WerewolfNarration(props: {
 }) {
 	return (
 		<div className="flex flex-col items-center gap-2 text-center">
-			<span className="text-lgl font-bold">{props.title}</span>
+			<span className="text-lg font-bold">{props.title}</span>
 			<p className="text-sm">{props.text}</p>
 		</div>
 	)

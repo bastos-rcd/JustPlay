@@ -81,7 +81,7 @@ export default function UndercoverGame() {
 				<div className="grid grid-cols-3 gap-4">
 					{players.map((player) => (
 						<div
-							key={player.name}
+							key={player.id}
 							className={`flex h-20 flex-col items-center justify-center gap-1 rounded-2xl border ${player.die ? 'border-red bg-surface opacity-50' : 'border-border bg-white'} p-2 text-center`}
 							onClick={() => handleClick(player)}
 						>

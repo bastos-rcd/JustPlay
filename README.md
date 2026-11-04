@@ -23,7 +23,7 @@ Multi game application
    npm run dev
    ```
 
-4. Open application `http://localhost:3000`
+4. Open application `http://localhost:5173`
 
 ## License
 
