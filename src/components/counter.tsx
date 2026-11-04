@@ -1,8 +1,8 @@
 export default function Counter(props: {
 	value: number
 	change: (value: number) => void
-	min: number
-	max: number
+	min?: number
+	max?: number
 }) {
 	return (
 		<div className="flex flex-row items-center justify-center gap-4">
