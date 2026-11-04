@@ -7,4 +7,8 @@ export const GAMES = [
 		label: 'Fléchettes',
 		name: 'darts',
 	},
+	{
+		label: 'Undercover',
+		name: 'undercover',
+	},
 ]

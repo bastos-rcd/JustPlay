@@ -1,0 +1,68 @@
+import { create } from 'zustand'
+
+import { pickRoles, pickWords } from '@/features/undercover/undercover.const'
+import type { Player, Role } from '@/features/undercover/undercover.type'
+
+interface State {
+	status: boolean
+	start: () => void
+	stop: () => void
+
+	nbCivil: number
+	setNbCivil: (nb: number) => void
+	nbUndercover: number
+	setNbUndercover: (nb: number) => void
+	nbMister: number
+	setNbMister: (nb: number) => void
+
+	words: { civil: string; undercover: string }
+	roles: Role[]
+
+	players: Player[]
+	addPlayer: (name: string, role: Role) => void
+}
+
+export const undercoverStore = create<State>((set) => ({
+	status: false,
+	start: () =>
+		set((state) => ({
+			status: true,
+			words: pickWords(),
+			roles: pickRoles(state.nbCivil, state.nbUndercover, state.nbMister),
+			players: [],
+		})),
+	stop: () =>
+		set({
+			status: false,
+			roles: [],
+			players: [],
+		}),
+
+	nbCivil: 3,
+	setNbCivil: (nb) => set({ nbCivil: nb }),
+	nbUndercover: 1,
+	setNbUndercover: (nb) => set({ nbUndercover: nb }),
+	nbMister: 0,
+	setNbMister: (nb) => set({ nbMister: nb }),
+
+	words: { civil: 'CIVIL', undercover: 'UNDERCOVER' },
+	roles: [],
+
+	players: [],
+	addPlayer: (name, role) =>
+		set((state) => {
+			const players = [
+				...state.players,
+				{
+					id: crypto.randomUUID(),
+					name,
+					role,
+					die: false,
+				},
+			]
+
+			return {
+				players,
+			}
+		}),
+}))
