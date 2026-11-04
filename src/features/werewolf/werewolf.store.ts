@@ -1,7 +1,21 @@
 import { create } from 'zustand'
 
-import { pickRoles } from '@/features/werewolf/werewolf.const'
-import type { Player, Role } from '@/features/werewolf/werewolf.type'
+import {
+	applyDeaths,
+	isStepActive,
+	pickRoles,
+	pickWinner,
+	STEPS,
+} from '@/features/werewolf/werewolf.const'
+import {
+	type Camp,
+	type Cause,
+	type Death,
+	type Phase,
+	type Player,
+	type Role,
+	type Step,
+} from '@/features/werewolf/werewolf.type'
 
 interface State {
 	status: boolean
@@ -29,11 +43,65 @@ interface State {
 
 	players: Player[]
 	addPlayer: (name: string, role: Role) => void
-	eliminate: (id: string) => void
 
-	winner: Role | null
-	setWinner: (role: Role | null) => void
+	phase: Phase
+	night: number
+	step: Step
+	nextStep: () => void
+
+	lovers: string[]
+	setLovers: (ids: string[]) => void
+
+	victim: string | null
+	setVictim: (id: string) => void
+
+	potions: { life: boolean; death: boolean }
+	poisoned: string | null
+	brew: (save: boolean, poison: string | null) => void
+
+	deaths: Death[]
+	cause: Cause
+	next: 'DAY' | 'NIGHT'
+	hunter: boolean
+	vote: (id: string) => void
+	shoot: (id: string) => void
+	proceed: () => void
+
+	winner: Camp | null
 }
+
+type Game = Pick<
+	State,
+	| 'players'
+	| 'phase'
+	| 'night'
+	| 'step'
+	| 'lovers'
+	| 'victim'
+	| 'potions'
+	| 'poisoned'
+	| 'deaths'
+	| 'cause'
+	| 'next'
+	| 'hunter'
+	| 'winner'
+>
+
+const initialGame = (): Game => ({
+	players: [],
+	phase: 'NIGHT',
+	night: 1,
+	step: 'SLEEP',
+	lovers: [],
+	victim: null,
+	potions: { life: true, death: true },
+	poisoned: null,
+	deaths: [],
+	cause: 'NIGHT',
+	next: 'DAY',
+	hunter: false,
+	winner: null,
+})
 
 export const werewolfStore = create<State>((set) => ({
 	status: false,
@@ -48,16 +116,9 @@ export const werewolfStore = create<State>((set) => ({
 				state.nbPlayers.cupid,
 				state.nbPlayers.hunter,
 			),
-			players: [],
-			winner: null,
+			...initialGame(),
 		})),
-	stop: () =>
-		set({
-			status: false,
-			roles: [],
-			players: [],
-			winner: null,
-		}),
+	stop: () => set({ status: false, roles: [], ...initialGame() }),
 
 	nbPlayers: {
 		civils: 2,
@@ -80,33 +141,100 @@ export const werewolfStore = create<State>((set) => ({
 		}),
 
 	roles: [],
+	...initialGame(),
 
-	players: [],
 	addPlayer: (name, role) =>
-		set((state) => {
-			const players = [
+		set((state) => ({
+			players: [
 				...state.players,
-				{
-					id: crypto.randomUUID(),
-					name,
-					role,
-					die: false,
-				},
-			]
+				{ id: crypto.randomUUID(), name, role, die: false },
+			],
+		})),
 
-			return {
-				players,
-			}
-		}),
-	eliminate: (id) =>
+	nextStep: () =>
 		set((state) => {
-			const players = state.players.map((player) =>
-				player.id === id ? { ...player, die: true } : player,
+			const following = STEPS.slice(STEPS.indexOf(state.step) + 1).find(
+				(step) => isStepActive(step, state),
 			)
 
-			return { players }
+			if (following) return { step: following }
+
+			// Fin de la nuit : on applique la victime des loups et le poison
+			const killed = [state.victim, state.poisoned].filter(
+				(id): id is string => id !== null,
+			)
+			const { players, deaths, hunter } = applyDeaths(
+				state.players,
+				state.lovers,
+				killed,
+			)
+
+			return {
+				phase: 'REPORT',
+				players,
+				deaths,
+				hunter,
+				cause: 'NIGHT',
+				next: 'DAY',
+				victim: null,
+				poisoned: null,
+			}
 		}),
 
-	winner: null,
-	setWinner: (winner) => set({ winner }),
+	setLovers: (ids) => set({ lovers: ids }),
+
+	setVictim: (id) => set({ victim: id }),
+
+	brew: (save, poison) =>
+		set((state) => ({
+			victim: save ? null : state.victim,
+			poisoned: poison,
+			potions: {
+				life: state.potions.life && !save,
+				death: state.potions.death && !poison,
+			},
+		})),
+
+	vote: (id) =>
+		set((state) => {
+			const { players, deaths, hunter } = applyDeaths(
+				state.players,
+				state.lovers,
+				[id],
+			)
+
+			return {
+				phase: 'REPORT',
+				players,
+				deaths,
+				hunter,
+				cause: 'VOTE',
+				next: 'NIGHT',
+			}
+		}),
+
+	shoot: (id) =>
+		set((state) => {
+			const { players, deaths } = applyDeaths(state.players, state.lovers, [id])
+
+			return {
+				phase: 'REPORT',
+				players,
+				deaths,
+				hunter: false,
+				cause: 'HUNTER',
+			}
+		}),
+
+	proceed: () =>
+		set((state) => {
+			if (state.hunter) return { phase: 'HUNTER' }
+
+			const winner = pickWinner(state.players, state.lovers)
+			if (winner) return { phase: 'END', winner }
+
+			if (state.next === 'DAY') return { phase: 'DAY' }
+
+			return { phase: 'NIGHT', night: state.night + 1, step: 'SLEEP' }
+		}),
 }))
