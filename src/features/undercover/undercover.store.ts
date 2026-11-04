@@ -20,6 +20,10 @@ interface State {
 
 	players: Player[]
 	addPlayer: (name: string, role: Role) => void
+	eliminate: (id: string) => void
+
+	winner: Role | null
+	setWinner: (role: Role | null) => void
 }
 
 export const undercoverStore = create<State>((set) => ({
@@ -30,12 +34,14 @@ export const undercoverStore = create<State>((set) => ({
 			words: pickWords(),
 			roles: pickRoles(state.nbCivil, state.nbUndercover, state.nbMister),
 			players: [],
+			winner: null,
 		})),
 	stop: () =>
 		set({
 			status: false,
 			roles: [],
 			players: [],
+			winner: null,
 		}),
 
 	nbCivil: 3,
@@ -65,4 +71,15 @@ export const undercoverStore = create<State>((set) => ({
 				players,
 			}
 		}),
+	eliminate: (id) =>
+		set((state) => {
+			const players = state.players.map((player) =>
+				player.id === id ? { ...player, die: true } : player,
+			)
+
+			return { players }
+		}),
+
+	winner: null,
+	setWinner: (winner) => set({ winner }),
 }))
