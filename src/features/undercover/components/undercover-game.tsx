@@ -60,13 +60,11 @@ export default function UndercoverGame() {
 	return (
 		<>
 			{winner && (
-				<span className="text-center text-lg font-bold">
-					Victoire : {winner}
-				</span>
-			)}
-
-			{winner && (
 				<>
+					<span className="text-center text-lg font-bold">
+						Victoire : {winner}
+					</span>
+
 					<p className="text-center text-sm">
 						Civils : <b>{words?.civil}</b>
 					</p>

@@ -4,6 +4,8 @@ import {
 	type Role,
 } from '@/features/undercover/undercover.type'
 
+import { shuffle } from '@/utils/shuffle'
+
 export const WORDS: [string, string][] = [
 	['Pizza', 'Burger'],
 	['Café', 'Thé'],
@@ -165,15 +167,6 @@ export const WORDS: [string, string][] = [
 	['Stress', 'Angoisse'],
 	['Rire', 'Sourire'],
 ]
-
-export function shuffle<T>(array: T[]): T[] {
-	const result = [...array]
-	for (let i = result.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1))
-		;[result[i], result[j]] = [result[j], result[i]]
-	}
-	return result
-}
 
 export function pickWords(): { civil: string; undercover: string } {
 	const [a, b] = WORDS[Math.floor(Math.random() * WORDS.length)]

@@ -16,7 +16,6 @@ export default function Werewolf() {
 			nbPlayers.witch +
 			nbPlayers.clairvoyant +
 			nbPlayers.cupid +
-			nbPlayers.thief +
 			nbPlayers.hunter
 	)
 		return <WerewolfSelect />

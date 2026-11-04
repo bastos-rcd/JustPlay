@@ -14,7 +14,6 @@ interface State {
 		witch: number
 		clairvoyant: number
 		cupid: number
-		thief: number
 		hunter: number
 	}
 	setNbPlayers: (
@@ -23,7 +22,6 @@ interface State {
 		witch: number,
 		clairvoyant: number,
 		cupid: number,
-		thief: number,
 		hunter: number,
 	) => void
 
@@ -48,7 +46,6 @@ export const werewolfStore = create<State>((set) => ({
 				state.nbPlayers.witch,
 				state.nbPlayers.clairvoyant,
 				state.nbPlayers.cupid,
-				state.nbPlayers.thief,
 				state.nbPlayers.hunter,
 			),
 			players: [],
@@ -68,10 +65,9 @@ export const werewolfStore = create<State>((set) => ({
 		witch: 1,
 		clairvoyant: 0,
 		cupid: 0,
-		thief: 0,
 		hunter: 0,
 	},
-	setNbPlayers: (civils, werewolfs, witch, clairvoyant, cupid, thief, hunter) =>
+	setNbPlayers: (civils, werewolfs, witch, clairvoyant, cupid, hunter) =>
 		set({
 			nbPlayers: {
 				civils,
@@ -79,7 +75,6 @@ export const werewolfStore = create<State>((set) => ({
 				witch,
 				clairvoyant,
 				cupid,
-				thief,
 				hunter,
 			},
 		}),

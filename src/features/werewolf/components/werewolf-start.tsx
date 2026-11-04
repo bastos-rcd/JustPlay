@@ -20,7 +20,6 @@ export default function WerewolfStart() {
 						nbPlayers.witch +
 						nbPlayers.clairvoyant +
 						nbPlayers.cupid +
-						nbPlayers.thief +
 						nbPlayers.hunter}{' '}
 					joueur(s)
 				</span>
@@ -37,7 +36,6 @@ export default function WerewolfStart() {
 								nbPlayers.witch,
 								nbPlayers.clairvoyant,
 								nbPlayers.cupid,
-								nbPlayers.thief,
 								nbPlayers.hunter,
 							)
 						}
@@ -57,7 +55,6 @@ export default function WerewolfStart() {
 								nbPlayers.witch,
 								nbPlayers.clairvoyant,
 								nbPlayers.cupid,
-								nbPlayers.thief,
 								nbPlayers.hunter,
 							)
 						}
@@ -77,7 +74,6 @@ export default function WerewolfStart() {
 								value,
 								nbPlayers.clairvoyant,
 								nbPlayers.cupid,
-								nbPlayers.thief,
 								nbPlayers.hunter,
 							)
 						}
@@ -98,7 +94,6 @@ export default function WerewolfStart() {
 								nbPlayers.witch,
 								value,
 								nbPlayers.cupid,
-								nbPlayers.thief,
 								nbPlayers.hunter,
 							)
 						}
@@ -118,28 +113,6 @@ export default function WerewolfStart() {
 								nbPlayers.werewolfs,
 								nbPlayers.witch,
 								nbPlayers.clairvoyant,
-								value,
-								nbPlayers.thief,
-								nbPlayers.hunter,
-							)
-						}
-						min={0}
-						max={1}
-					/>
-				</div>
-
-				<div className="flex flex-row items-center justify-between gap-4">
-					<span className="font-semibold">Voleur</span>
-
-					<Counter
-						value={nbPlayers.thief}
-						change={(value) =>
-							setNbPlayers(
-								nbPlayers.civils,
-								nbPlayers.werewolfs,
-								nbPlayers.witch,
-								nbPlayers.clairvoyant,
-								nbPlayers.cupid,
 								value,
 								nbPlayers.hunter,
 							)
@@ -161,7 +134,6 @@ export default function WerewolfStart() {
 								nbPlayers.witch,
 								nbPlayers.clairvoyant,
 								nbPlayers.cupid,
-								nbPlayers.thief,
 								value,
 							)
 						}
@@ -183,7 +155,6 @@ export default function WerewolfStart() {
 						nbPlayers.witch +
 						nbPlayers.clairvoyant +
 						nbPlayers.cupid +
-						nbPlayers.thief +
 						nbPlayers.hunter <
 					4
 				}
